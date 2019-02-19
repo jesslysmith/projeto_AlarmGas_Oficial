@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  </head>
+  <body>
+
+    <nav class="navbar navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">
+        <img src="https://github.com/arturkramer/projeto-tecnicas/blob/master/fire%20(1).png?raw=true" width="30" height="30" class="d-inline-block align-top" alt="">
+        AlarmGas
+      </a>
+    </nav>
+
+
+
+    <div class = "container pt-5">
+
+      <div class="card-group">
+
+        <div class="col-sm-4 ">
+          <img src="https://github.com/arturkramer/projeto-tecnicas/blob/master/fire%20(3).png?raw=true" width="200" height="200" class="rounded mx-auto d-block" alt="" >
+          <h6 class = "text-center py-3 px-md-6">Detector de Vazamento de G&aacute;s Inflam&aacute;vel</h6>
+        </div>
+
+
+        <div class="col-sm-4">
+          <div class="card text-center">
+            <div class="card-header"><b>Concentra&ccedil;&atilde;o (ppm)</b></div>
+            <div class="card-body">
+              <h5 class = "card-title" id="sensor"></h5>
+              <div class="invisible">
+                <input class = "btn btn-danger" type="button"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="card text-center">
+            <div class="card-header"><b>Alarme</b></div>
+            <div class="card-body">
+              <h5 class="card-text" id="led">Desligado</h5>
+              <input class = "btn btn-danger" type="button" onclick = "desligarAlarme()" value="DESLIGAR ALARME"/>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+
+      //var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+      var socket = io.connect('http://alarmgas.herokuapp.com');
+      socket.on("atualiza", function(dados) {
+        console.log(dados)
+        if("SENSOR" in dados)
+          document.getElementById("sensor").innerHTML = dados["SENSOR"]
+        if("LED" in dados)
+          if(dados["LED"] == 1)
+            document.getElementById("led").innerHTML = "Ligado"
+        else
+          document.getElementById("led").innerHTML = "Desligado"
+      });
+
+
+      function desligarAlarme(){
+        console.log("desligar")
+        socket.emit('desligar_Alarme')
+      }
+
+    </script>
+  </body>
+</html>

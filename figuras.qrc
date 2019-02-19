@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>imagens/alarm.png</file>
+        <file>imagens/hidden_danger_1392698.png</file>
+    </qresource>
+</RCC>
